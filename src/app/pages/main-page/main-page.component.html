@@ -1,0 +1,42 @@
+<mat-sidenav-container class="sidenav-container">
+  <!-- [mode]="(isHandset$ | async) ? 'over' : 'side'" -->
+  <!-- [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+   [opened]="!(isHandset$ | async)"
+  -->
+  <mat-sidenav #drawer class="sidenav" fixedInViewport="false"
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="false">
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list class="float-left">
+
+      <a style="direction: ltr" mat-list-item routerLink="/htmlFeatureHandling" routerLinkActive="active"
+        (click)="drawer.toggle()">
+        HTML Feature Handling </a>
+      <a mat-list-item routerLink="/login" routerLinkActive="active" (click)="logOut(drawer)">Exit</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <!-- *ngIf="isHandset$ | async" -->
+    <mat-toolbar color="primary" class="float-left">
+      <mat-toolbar-row>
+        <!-- <span class="example-spacer"></span> -->
+
+        <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
+          *ngIf="isAuthorized">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+        <span> Silicon Expert Handler </span>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <!-- Add Content Here -->
+    <!-- for production -->
+    <app-login (isAuthorized)='isAuthorized=$event' *ngIf='!isAuthorized'></app-login>
+    <div id="imageContainer" *ngIf='isAuthorized'>
+      <router-outlet></router-outlet>
+    </div>
+
+    <!-- for test -->
+    <!-- <app-create-branch></app-create-branch> -->
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,63 @@
+<mat-toolbar>
+
+    <span>Validation Checker</span>
+    <span class="fill-remaining-space"></span>
+    <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+        <mat-icon>clear</mat-icon>
+    </button>
+
+</mat-toolbar>
+<br/>
+<mat-toolbar>
+
+    <span>{{results}}</span>
+    
+</mat-toolbar>
+
+
+<form [formGroup]="service.formValidation" (ngSubmit)="onFormSubmit()" class="normal-form">
+    <mat-grid-list cols="2" rowHeight="420px">
+
+        <mat-grid-tile>
+            <div class="controles-container">
+
+                <div style="height:50px ;"></div>
+
+                <mat-form-field>
+                    <input formControlName="vendorCode" matInput placeholder="Vendor Code">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-select formControlName="featureName" placeholder="Please Select Feature">
+                        <!-- <mat-option>None</mat-option> -->
+                        <ng-container *ngFor="let featureName of allFeatureNames">
+                            <mat-option value="{{featureName}}">{{featureName}}</mat-option>
+                        </ng-container>
+                    </mat-select>
+                </mat-form-field>
+
+
+               
+
+
+                <div class="button-row">
+                    <!-- [disabled]="service.form.invalid" -->
+                    <button mat-raised-button color="primary" type="submit">Check Results</button>
+                    <button id='buttonReset' mat-raised-button color="warn" type="reset"> Clear</button>
+                </div>
+            </div>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+            <div class="controles-container">
+                
+
+                <mat-form-field>
+                    <input formControlName="testValue" matInput placeholder="Test Value">
+                </mat-form-field>
+
+
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+</form>
