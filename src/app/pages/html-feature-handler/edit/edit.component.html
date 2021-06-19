@@ -1,5 +1,15 @@
 <div class="search-div">
 
+    <button class="margin-right:50px" mat-raised-button matSuffix  (click)="onValidate()">
+        <div class="icons8-settings"></div>Check
+    </button>
+    <button mat-raised-button (click)="onCreate()">
+        <mat-icon>add</mat-icon>ADD
+    </button>
+    <button mat-button matSuffix mat-icon-button (click)="exportAsXLSX()">
+        <div class="icons8-microsoft-excel"></div>
+    </button>
+    
     <mat-form-field class="search-form-field" floatLabel="never">
         <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off"
             (keyup)="applyFilter($event.target.value)">
@@ -7,15 +17,6 @@
             <mat-icon>close</mat-icon>
         </button>
     </mat-form-field>
-    <button mat-raised-button (click)="onCreate()">
-        <mat-icon>add</mat-icon>ADD
-    </button>
-    <button mat-button matSuffix mat-icon-button (click)="exportAsXLSX()">
-        <div class="icons8-microsoft-excel"></div>
-    </button>
-    <button mat-button matSuffix mat-icon-button (click)="onValidate()">
-        <div class="icons8-settings"></div>Check
-    </button>
     <!-- <button mat-button matSuffix mat-icon-button (click)="loadData()">
         <mat-icon style="color:green">autorenew</mat-icon>
     </button> -->
