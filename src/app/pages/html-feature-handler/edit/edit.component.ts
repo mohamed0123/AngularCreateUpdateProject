@@ -152,6 +152,6 @@ debugger
   }
 
   exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile('Handling Screen Data');
+    this.excelService.exportAsExcelFile('Handling Screen Data',this.dataArray.data);
   }
 }

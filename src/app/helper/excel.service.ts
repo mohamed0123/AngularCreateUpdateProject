@@ -13,36 +13,43 @@ export class ExcelService {
   constructor() { }
 
 
-  public exportAsExcelFile(excelFileName: string): void {
-    let json = []
+  public exportAsExcelFile(excelFileName: string,json : any): void {
+
+    let header ={}
+    Object.entries(json[0]).forEach(([key, value]) => {
+      header[key] = key;
+    });
+    json.unshift(header)
+
+    // let json = []
 
 
-    document.querySelectorAll('mat-header-row').forEach(
-      r => {
-        let row = []
-        r.querySelectorAll('mat-header-cell').forEach(e => {
-          let cell = <HTMLElement>e
-          row.push(cell.innerText)
-        })
+    // document.querySelectorAll('mat-header-row').forEach(
+    //   r => {
+    //     let row = []
+    //     r.querySelectorAll('mat-header-cell').forEach(e => {
+    //       let cell = <HTMLElement>e
+    //       row.push(cell.innerText)
+    //     })
 
-        json.push(row.slice(1))
-      }
-    )
+    //     json.push(row.slice(1))
+    //   }
+    // )
 
-    document.querySelectorAll('mat-row').forEach(
-      r => {
-        let row = []
-        r.querySelectorAll('mat-cell').forEach(e => {
-          let cell = <HTMLElement>e
-          row.push(cell.innerText)
-        })
+    // document.querySelectorAll('mat-row').forEach(
+    //   r => {
+    //     let row = []
+    //     r.querySelectorAll('mat-cell').forEach(e => {
+    //       let cell = <HTMLElement>e
+    //       row.push(cell.innerText)
+    //     })
 
-        json.push(row.slice(1))
-      }
-    )
+    //     json.push(row.slice(1))
+    //   }
+    // )
 
 
-    json = json;
+    // json = json;
 
 
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json, { skipHeader: true });
