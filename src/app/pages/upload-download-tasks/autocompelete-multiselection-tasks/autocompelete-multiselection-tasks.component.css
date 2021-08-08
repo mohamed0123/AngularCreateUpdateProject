@@ -1,0 +1,27 @@
+.example-chip-list {
+    width: 100%;
+    color: rgb(0, 0, 0);
+}
+
+
+/* Border */
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+    color: rgb(0, 0, 0);
+}
+
+
+/* Font color */
+
+input.mat-input-element {
+    color: rgb(0, 0, 0);
+}
+
+.mat-form-field-infix .mat-input-element::placeholder {
+    color: rgb(0, 0, 0);
+    /* add placeholder css here */
+}
+
+label {
+    color: rgb(0, 0, 0);
+}

@@ -36,6 +36,10 @@ import { HtmlFeatureHandlerComponent } from './pages/html-feature-handler/html-f
 import { CreateComponent } from './pages/html-feature-handler/create/create.component';
 import { EditComponent } from './pages/html-feature-handler/edit/edit.component';
 import { ValidationComponent } from './pages/html-feature-handler/validation/validation.component';
+import { UploadDownloadTasksComponent } from './pages/upload-download-tasks/upload-download-tasks.component';
+import { AutocompeleteMultiselectionTasksComponent } from './pages/upload-download-tasks/autocompelete-multiselection-tasks/autocompelete-multiselection-tasks.component';
+import { MatChipsModule } from '@angular/material/chips';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,10 +50,12 @@ import { ValidationComponent } from './pages/html-feature-handler/validation/val
     EditComponent,
     CreateComponent,
     ValidationComponent,
-
+    UploadDownloadTasksComponent,
+    AutocompeleteMultiselectionTasksComponent,
   ],
   imports: [
     BrowserModule,
+    MatChipsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     LayoutModule,

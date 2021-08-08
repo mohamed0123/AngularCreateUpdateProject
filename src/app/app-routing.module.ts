@@ -4,13 +4,15 @@ import { Routes, RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { LoginComponent } from './pages/login/login.component';
 import { HtmlFeatureHandlerComponent } from './pages/html-feature-handler/html-feature-handler.component';
-
+import {UploadDownloadTasksComponent } from './pages/upload-download-tasks/upload-download-tasks.component'
 
 const routes: Routes = [
 { path: '', redirectTo: 'htmlFeatureHandling', pathMatch: 'full' },
 { path: 'login', redirectTo: 'htmlFeatureHandling', pathMatch: 'full' },
 { path: 'login', component: LoginComponent },
 { path: 'htmlFeatureHandling', component: HtmlFeatureHandlerComponent },
+{ path: 'lcTracker', component: UploadDownloadTasksComponent },
+
 { path: 'pageNotFound', component: PageNotFoundComponent },
 { path: '**', component: PageNotFoundComponent }
 ];
