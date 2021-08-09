@@ -147,9 +147,11 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
         }]
       },
       options: {
+        
         responsive: false,
         // display: true,
         legend: {
+          position: 'right',
           labels: {
             fontColor: '#000000',
             // fontSize: 18
