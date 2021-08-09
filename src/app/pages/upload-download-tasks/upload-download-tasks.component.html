@@ -34,13 +34,27 @@
 
         <div class="form-group">
             <div class="example-button-row">
+                <mat-spinner *ngIf="loading"></mat-spinner>
+            </div>
+
+            <div class="example-button-row">
                 <!-- <button mat-raised-button class="btn btn-danger btn-block btn-lg" (click)="submitUser()">Create</button> -->
                 <!-- <button mat-raised-button class="btn btn-danger  btn-sm" (click)="submitUser()">Create Task</button> -->
-                <button mat-raised-button class="btn btn-info  btn-sm " (click)="exportInputStatus()">Export Info</button>
-                <button mat-raised-button class="btn btn-secondary  btn-sm " (click)="exportResultsStatus()">Export Results</button>
-                <button mat-raised-button class="btn btn-light btn-sm" (click)="exportDiffStatus()">Export Difference</button>
+                <button mat-raised-button class="btn btn-info  btn-sm " (click)="exportInputStatus()">Export Info
+                    <!-- <i class="fa fa-spinner fa-spin" *ngIf="loading"></i> -->
+
+
+                </button>
+                <button mat-raised-button class="btn btn-secondary  btn-sm " (click)="exportResultsStatus()">Export
+                    Results
+
+                </button>
+                <button mat-raised-button class="btn btn-light btn-sm" (click)="exportDiffStatus()">Export Difference
+
+                </button>
                 <button mat-raised-button class="btn btn-success btn-sm" (click)="exportByUrl()">Export By URLs</button>
-                <button mat-raised-button class="btn btn-light btn-sm" (click)="exportByVendor()">Export By Vendor</button>
+                <button mat-raised-button class="btn btn-light btn-sm" (click)="exportByVendor()">Export By
+                    Vendor</button>
 
             </div>
         </div>
@@ -52,8 +66,8 @@
             </div>
         </div>
 
-      
-<!-- 
+
+        <!-- 
         <div class="form-group input-group-lg">
            
             <app-autocompelete-multiselection-tasks [allTasks]="allTasks" (selectedTasks)="onSelectTask($event)"></app-autocompelete-multiselection-tasks>
@@ -61,13 +75,15 @@
 
 
         <mat-form-field>
-            <input style="color: rgb(0, 0, 0);" matInput [matDatepicker]="picker1" placeholder="From Date" formControlName="fromDate">
+            <input style="color: rgb(0, 0, 0);" matInput [matDatepicker]="picker1" placeholder="From Date"
+                formControlName="fromDate">
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
 
         <mat-form-field>
-            <input style="color: rgb(0, 0, 0);" matInput [matDatepicker]="picker2" placeholder="To Date" formControlName="toDate">
+            <input style="color: rgb(0, 0, 0);" matInput [matDatepicker]="picker2" placeholder="To Date"
+                formControlName="toDate">
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>
@@ -78,12 +94,13 @@
 
         <div style="margin-bottom: 2em;"></div>
         <mat-checkbox style="color: rgb(0, 0, 0);" formControlName="withOrWithoutDate">With Date</mat-checkbox>
-        
-        <mat-radio-group style="color: rgb(0, 0, 0);" formControlName="verticalOrHorizontal" aria-label="Select an option">
+
+        <mat-radio-group style="color: rgb(0, 0, 0);" formControlName="verticalOrHorizontal"
+            aria-label="Select an option">
             <mat-radio-button [checked]="true" value="hor">Horizontal</mat-radio-button>
             <mat-radio-button value="ver">Vertical</mat-radio-button>
         </mat-radio-group>
         <div style="margin-bottom: 2em;"></div>
-       
+
     </form>
 </div>

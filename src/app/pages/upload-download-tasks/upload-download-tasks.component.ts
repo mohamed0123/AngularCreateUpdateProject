@@ -8,13 +8,13 @@ import { ChartType, ChartDataSets, Chart } from 'chart.js';
 import { MultiDataSet, Label, Color } from 'ng2-charts';
 import { FormControl } from '@angular/forms';
 import { from } from 'rxjs';
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy , ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-upload-download-tasks',
   templateUrl: './upload-download-tasks.component.html',
-  styleUrls: ['./upload-download-tasks.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./upload-download-tasks.component.css']
+  // ,changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChanges, AfterViewInit {
   myInterval: any;
@@ -27,11 +27,11 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
   allTasks: string[];
   date = new FormControl(new Date());
   serializedDate = new FormControl((new Date()).toISOString());
-
+  loading: boolean = false;
   constructor(
     public fb: FormBuilder,
     public fileUploadService: FileUploadService,
-    private notificationService: NotificationService) {
+    private notificationService: NotificationService,private cdRef:ChangeDetectorRef) {
     this.form = this.fb.group({
       name: [''],
       avatar: [null],
@@ -68,10 +68,15 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
   }
 
   getAllTasks() {
+    this.loading = true;
     this.fileUploadService.getAllTasks().subscribe(data => {
       this.allTasks = data;
       // console.log(this.allTasks);
-    }, error => { console.log(error); });
+      this.loading = false;
+    }, error => { 
+      this.loading = false;
+      console.log(error); 
+    });
   }
 
 
@@ -163,6 +168,7 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
   }
 
   submitUser() {
+    this.loading = true;
     this.fileUploadService.addUser(
       this.form.value.name,
       this.form.value.avatar
@@ -183,15 +189,18 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
           this.notificationService.success('Task Successfully Created');
           // this.downloadFunc(event.body.userCreated.avatar)
           console.log('start downloading');
+          
           this.fileUploadService.downloadFile(event.body.userCreated.avatar).subscribe(
             data => {
               saveAs(data, event.body.userCreated.avatar);
               this.getAllTasks();
               this.drawMyChart();
+              this.loading = false;
             },
             err => {
               alert('Problem while downloading the file.');
               console.error(err);
+              this.loading = false;
             }
           );
           setTimeout(() => {
@@ -219,6 +228,9 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
   }
 
   exportInputStatus() {
+    this.loading = true;
+    this.cdRef.detectChanges()
+    debugger
     this.fileUploadService.exportInputStatusApi(
       this.selectedTasks
     ).subscribe(filePath => {
@@ -227,9 +239,11 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
       this.fileUploadService.downloadFile(filePath).subscribe(
         data => {
           saveAs(data, filePath);
+          this.loading = false;
         },
         err => {
           alert('Problem while downloading the file.');
+          this.loading = false;
           console.error(err);
         }
       );
@@ -247,7 +261,7 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
       dateTo = this.form.value.toDate;
       dateFrom = this.form.value.dateFrom;
     }
-
+    this.loading = true;
     this.fileUploadService.exportResultsStatusApi(
       this.selectedTasks, dateTo, dateFrom
     ).subscribe(filePath => {
@@ -256,10 +270,12 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
       this.fileUploadService.downloadFile(filePath).subscribe(
         data => {
           saveAs(data, filePath);
+          this.loading = false;
         },
         err => {
           alert('Problem while downloading the file.');
           console.error(err);
+          this.loading = false;
         }
       );
     }
@@ -277,6 +293,7 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
 
 
   exportResultsHorizontal() {
+    this.loading = true;
     let dateTo = null;
     let dateFrom = null;
     if (this.form.value.withOrWithoutDate) {
@@ -293,10 +310,12 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
       this.fileUploadService.downloadFile(filePath).subscribe(
         data => {
           saveAs(data, filePath);
+          this.loading = false;
         },
         err => {
           alert('Problem while downloading the file.');
           console.error(err);
+          this.loading = false;
         }
       );
     }
@@ -305,6 +324,7 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
 
   exportDiffStatus() {
     let dateTo = null;
+    this.loading = true;
     let dateFrom = null;
     if (this.form.value.withOrWithoutDate) {
       console.log(this.form.value.fromDate);
@@ -320,10 +340,12 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
       this.fileUploadService.downloadFile(filePath).subscribe(
         data => {
           saveAs(data, filePath);
+          this.loading = false;
         },
         err => {
           alert('Problem while downloading the file.');
           console.error(err);
+          this.loading = false;
         }
       );
     }
@@ -338,6 +360,7 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
 
 
   exportByUrl(): void {
+    this.loading = true;
     this.fileUploadService.exportByUrl(
       this.form.value.name,
       this.form.value.avatar
@@ -362,10 +385,12 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
             data => {
               saveAs(data, event.body.userCreated.avatar);
               this.getAllTasks();
+              this.loading = false;
             },
             err => {
               alert('Problem while downloading the file.');
               console.error(err);
+              this.loading = false;
             }
           );
           setTimeout(() => {
@@ -387,6 +412,7 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
 
 
   exportByVendor(): void {
+    this.loading = true;
     this.fileUploadService.exportByVendor(
       this.form.value.name,
       this.form.value.avatar
@@ -411,10 +437,12 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
             data => {
               saveAs(data, event.body.userCreated.avatar);
               this.getAllTasks();
+              this.loading = false;
             },
             err => {
               alert('Problem while downloading the file.');
               console.error(err);
+              this.loading = false;
             }
           );
           setTimeout(() => {
