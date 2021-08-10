@@ -28,6 +28,7 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
   date = new FormControl(new Date());
   serializedDate = new FormControl((new Date()).toISOString());
   loading: boolean = false;
+  statusList:string[] = ["Done" , "Error"]
   constructor(
     public fb: FormBuilder,
     public fileUploadService: FileUploadService,
@@ -88,8 +89,8 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
         console.log(data);
         const extData = data.extStatus;
         const doneCount = extData.filter(e => e._id === 'Done') || [];
-        const errorCount = extData.filter(e => e._id === 'error') || [];
-        const insertedCount = extData.filter(e => e._id === 'inserted') || [];
+        const errorCount = extData.filter(e => e._id === 'Error') || [];
+        const insertedCount = extData.filter(e => !this.statusList.includes( e._id) ) || [];
         // extraction chart
         const datareturned = [this.getCount(doneCount), this.getCount(insertedCount), this.getCount(errorCount)];
         const id = 'myChart';
@@ -98,11 +99,11 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
 
         const conStatus = data.conStatus;
         const doneConCount = conStatus.filter(e => e._id === 'Done') || [];
-        const errorConCount = conStatus.filter(e => e._id === 'error') || [];
-        const insertedConCount = conStatus.filter(e => e._id === 'unexecuted') || [];
-        const inProgress = conStatus.filter(e => e._id === 'Waiting convert to hr') || [];
+        const errorConCount = conStatus.filter(e => e._id === 'Error') || [];
+        // const insertedConCount = conStatus.filter(e => e._id === 'unexecuted') || [];
+        const inProgress = conStatus.filter(e => !this.statusList.includes( e._id)) || [];
         // conversition chart
-        const data1 = [this.getCount(doneConCount), this.getCount(insertedConCount) + this.getCount(inProgress), this.getCount(errorConCount)];
+        const data1 = [this.getCount(doneConCount), this.getCount(inProgress), this.getCount(errorConCount)];
         const id1 = 'myChart2';
         this.drawChart(data1, id1);
 
@@ -120,7 +121,7 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
     this.drawMyChart();
     this.myInterval = setInterval(() => {
       this.drawMyChart();
-    }, 1200000);
+    }, 2400000);
   }
 
 
@@ -128,6 +129,9 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
 
     this.canvas = document.getElementById(id);
     this.ctx = this.canvas.getContext('2d');
+    this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.restore();
     const myChart = new Chart(this.ctx, {
       type: 'pie',
       data: {
@@ -231,10 +235,16 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
 
   exportInputStatus() {
     this.loading = true;
-    this.cdRef.detectChanges()
-    debugger
+    let dateTo = null;
+    let dateFrom = null;
+    if (this.form.value.withOrWithoutDate) {
+      console.log(this.form.value.fromDate);
+      console.log(this.form.value.toDate);
+      dateTo = this.form.value.toDate;
+      dateFrom = this.form.value.fromDate;
+    }
     this.fileUploadService.exportInputStatusApi(
-      this.selectedTasks
+      this.selectedTasks, dateTo, dateFrom 
     ).subscribe(filePath => {
       console.log('start downloading');
       console.log(filePath);
@@ -261,11 +271,17 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
       console.log(this.form.value.fromDate);
       console.log(this.form.value.toDate);
       dateTo = this.form.value.toDate;
-      dateFrom = this.form.value.dateFrom;
+      dateFrom = this.form.value.fromDate;
+    }
+    let verticalOrHorizontal ;
+    if(this.form.value.verticalOrHorizontal === 'ver'){
+      verticalOrHorizontal = "vertical";
+    }else{
+      verticalOrHorizontal = "horizontal";
     }
     this.loading = true;
     this.fileUploadService.exportResultsStatusApi(
-      this.selectedTasks, dateTo, dateFrom
+      this.selectedTasks, dateTo, dateFrom,verticalOrHorizontal
     ).subscribe(filePath => {
       console.log('start downloading');
       console.log(filePath);
@@ -285,44 +301,11 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
   }
 
   exportResultsStatus() {
-    if (this.form.value.verticalOrHorizontal === 'ver') {
+   
       this.exportResultsVertical();
-    } else {
-      this.exportResultsHorizontal();
-    }
+   
   }
 
-
-
-  exportResultsHorizontal() {
-    this.loading = true;
-    let dateTo = null;
-    let dateFrom = null;
-    if (this.form.value.withOrWithoutDate) {
-      console.log(this.form.value.fromDate);
-      console.log(this.form.value.toDate);
-      dateTo = this.form.value.toDate;
-      dateFrom = this.form.value.dateFrom;
-    }
-    this.fileUploadService.exportResultsHorizontal(
-      this.selectedTasks, dateTo, dateFrom
-    ).subscribe(filePath => {
-      console.log('start downloading');
-      console.log(filePath);
-      this.fileUploadService.downloadFile(filePath).subscribe(
-        data => {
-          saveAs(data, filePath);
-          this.loading = false;
-        },
-        err => {
-          alert('Problem while downloading the file.');
-          console.error(err);
-          this.loading = false;
-        }
-      );
-    }
-    );
-  }
 
   exportDiffStatus() {
     let dateTo = null;
@@ -332,7 +315,7 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
       console.log(this.form.value.fromDate);
       console.log(this.form.value.toDate);
       dateTo = this.form.value.toDate;
-      dateFrom = this.form.value.dateFrom;
+      dateFrom = this.form.value.fromDate;
     }
     this.fileUploadService.exportDiffStatusApi(
       this.selectedTasks, dateTo, dateFrom
@@ -363,9 +346,31 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
 
   exportByUrl(): void {
     this.loading = true;
+    let dateTo = null;
+    let dateFrom = null;
+    if (this.form.value.withOrWithoutDate) {
+      console.log(this.form.value.fromDate);
+      console.log(this.form.value.toDate);
+      dateTo = this.form.value.toDate;
+      dateFrom = this.form.value.fromDate;
+    }
+    let verticalOrHorizontal ;
+    if(this.form.value.verticalOrHorizontal === 'ver'){
+      verticalOrHorizontal = "vertical";
+    }else{
+      verticalOrHorizontal = "horizontal";
+    }
+    
+
+    if(!this.form.value.avatar){
+      this.notificationService.warn("Please Choose your XLSX file with header (`URL`)")
+      this.loading = false;
+      return ;
+    }
+
     this.fileUploadService.exportByUrl(
       this.form.value.name,
-      this.form.value.avatar
+      this.form.value.avatar,this.selectedTasks, dateTo, dateFrom , verticalOrHorizontal
     ).subscribe((event: HttpEvent<any>) => {
       switch (event.type) {
         case HttpEventType.Sent:
@@ -380,7 +385,7 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
           break;
         case HttpEventType.Response:
           console.log('User successfully created!', event.body);
-          this.notificationService.success('Task Successfully Created');
+          this.notificationService.success('Done');
           // this.downloadFunc(event.body.userCreated.avatar)
           console.log('start downloading');
           this.fileUploadService.downloadFile(event.body.userCreated.avatar).subscribe(
@@ -404,20 +409,42 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
     },
       error => {
         console.log(error);
+        this.loading = false;
         this.notificationService.warn(error);
       }
 
     );
   }
 
-
-
-
   exportByVendor(): void {
+    debugger
+    let dateTo = null;
+    let dateFrom = null;
+    if (this.form.value.withOrWithoutDate) {
+      console.log(this.form.value.fromDate);
+      console.log(this.form.value.toDate);
+      dateTo = this.form.value.toDate;
+      dateFrom = this.form.value.fromDate;
+    }
+    let verticalOrHorizontal ;
+    if(this.form.value.verticalOrHorizontal === 'ver'){
+      verticalOrHorizontal = "vertical";
+    }else{
+      verticalOrHorizontal = "horizontal";
+    }
+
+    console.log(this.form.value.avatar)
+    if(!this.form.value.avatar){
+      this.loading = false;
+      this.notificationService.warn("Please Choose your XLSX file with header (`Vendor`)")
+      return ;
+    }
+    debugger
     this.loading = true;
     this.fileUploadService.exportByVendor(
       this.form.value.name,
-      this.form.value.avatar
+      this.form.value.avatar,
+      this.selectedTasks, dateTo, dateFrom , verticalOrHorizontal
     ).subscribe((event: HttpEvent<any>) => {
       switch (event.type) {
         case HttpEventType.Sent:
@@ -432,7 +459,7 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
           break;
         case HttpEventType.Response:
           console.log('User successfully created!', event.body);
-          this.notificationService.success('Task Successfully Created');
+          this.notificationService.success('Done');
           // this.downloadFunc(event.body.userCreated.avatar)
           console.log('start downloading');
           this.fileUploadService.downloadFile(event.body.userCreated.avatar).subscribe(
@@ -456,6 +483,7 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
     },
       error => {
         console.log(error);
+        this.loading = false;
         this.notificationService.warn(error);
       }
 

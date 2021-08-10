@@ -71,15 +71,15 @@ export class FileUploadService {
     );
   }
 
-  exportInputStatusApi( selectedTasks: string[]): Observable<any> {
+  exportInputStatusApi( selectedTasks: string[],dateTo, dateFrom ): Observable<any> {
     console.log(selectedTasks);
-    return this.http.post('http://localhost:8990/export-input-status/', {tasks : selectedTasks} ).pipe(
+    return this.http.post('http://localhost:8990/export-input-status/', {tasks : selectedTasks , dateTo, dateFrom } ).pipe(
       catchError(this.errorMgmt)
     );
   }
-  exportResultsStatusApi( selectedTasks: string[] , dateTo: Date, dateFrom: Date): Observable<any> {
+  exportResultsStatusApi( selectedTasks: string[] , dateTo: Date, dateFrom: Date,verticalOrHorizontal): Observable<any> {
     console.log(selectedTasks);
-    return this.http.post('http://localhost:8990/export-results-status/', {tasks : selectedTasks , dateTo , dateFrom } ).pipe(
+    return this.http.post('http://localhost:8990/export-results-status/', {tasks : selectedTasks , dateTo , dateFrom,verticalOrHorizontal } ).pipe(
       catchError(this.errorMgmt)
     );
   }
@@ -98,10 +98,14 @@ export class FileUploadService {
     );
   }
 
-  exportByUrl(name: string, profileImage: File): Observable<any> {
+  exportByUrl(name: string, profileImage: File, selectedTasks, dateTo, dateFrom , verticalOrHorizontal): Observable<any> {
     const formData: any = new FormData();
     formData.append('name', name);
     formData.append('avatar', profileImage);
+    formData.append('tasks', selectedTasks);
+    formData.append('dateTo', dateTo);
+    formData.append('dateFrom', dateFrom);
+    formData.append('verticalOrHorizontal', verticalOrHorizontal);
 
     return this.http.post('http://localhost:8990/export-by-url/', formData, {
       reportProgress: true,
@@ -111,11 +115,15 @@ export class FileUploadService {
     );
   }
 
-  exportByVendor(name: string, profileImage: File): Observable<any> {
+  exportByVendor(name: string, profileImage: File , selectedTasks, dateTo, dateFrom , verticalOrHorizontal): Observable<any> {
     const formData: any = new FormData();
     formData.append('name', name);
     formData.append('avatar', profileImage);
-
+    formData.append('tasks', selectedTasks);
+    formData.append('dateTo', dateTo);
+    formData.append('dateFrom', dateFrom);
+    formData.append('verticalOrHorizontal', verticalOrHorizontal);
+    
     return this.http.post('http://localhost:8990/export-by-vendor/', formData, {
       reportProgress: true,
       observe: 'events'
