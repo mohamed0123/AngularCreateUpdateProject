@@ -198,7 +198,7 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
           
           this.fileUploadService.downloadFile(event.body.userCreated.avatar).subscribe(
             data => {
-              saveAs(data, event.body.userCreated.avatar);
+              saveAs(data, event.body.userCreated.avatar.replace(/^.*[\\\/]/, ''));
               this.getAllTasks();
               this.drawMyChart();
               this.loading = false;
@@ -250,7 +250,7 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
       console.log(filePath);
       this.fileUploadService.downloadFile(filePath).subscribe(
         data => {
-          saveAs(data, filePath);
+          saveAs(data, filePath.replace(/^.*[\\\/]/, ''));
           this.loading = false;
         },
         err => {
@@ -287,7 +287,7 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
       console.log(filePath);
       this.fileUploadService.downloadFile(filePath).subscribe(
         data => {
-          saveAs(data, filePath);
+          saveAs(data, filePath.replace(/^.*[\\\/]/, ''));
           this.loading = false;
         },
         err => {
@@ -324,7 +324,7 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
       console.log(filePath);
       this.fileUploadService.downloadFile(filePath).subscribe(
         data => {
-          saveAs(data, filePath);
+          saveAs(data, filePath.replace(/^.*[\\\/]/, ''));
           this.loading = false;
         },
         err => {
@@ -390,7 +390,8 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
           console.log('start downloading');
           this.fileUploadService.downloadFile(event.body.userCreated.avatar).subscribe(
             data => {
-              saveAs(data, event.body.userCreated.avatar);
+              debugger
+              saveAs(data, event.body.userCreated.avatar.replace(/^.*[\\\/]/, ''));
               this.getAllTasks();
               this.loading = false;
             },
@@ -464,7 +465,7 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
           console.log('start downloading');
           this.fileUploadService.downloadFile(event.body.userCreated.avatar).subscribe(
             data => {
-              saveAs(data, event.body.userCreated.avatar);
+              saveAs(data, event.body.userCreated.avatar.replace(/^.*[\\\/]/, ''));
               this.getAllTasks();
               this.loading = false;
             },

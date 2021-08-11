@@ -8,15 +8,20 @@ import { HttpErrorResponse, HttpClient, HttpHeaders } from '@angular/common/http
 })
 
 export class FileUploadService {
+  
 
   constructor(private http: HttpClient) { }
+
+  // serverIpPosrt :string= 'http://localhost:8990'
+  serverIpPosrt :string= 'http://172.30.1.60:8990'
+
 
   addUser(name: string, profileImage: File): Observable<any> {
     const formData: any = new FormData();
     formData.append('name', name);
     formData.append('avatar', profileImage);
 
-    return this.http.post('http://localhost:8990/create-user/', formData, {
+    return this.http.post(`${this.serverIpPosrt}/create-user/`, formData, {
       reportProgress: true,
       observe: 'events'
     }).pipe(
@@ -24,13 +29,13 @@ export class FileUploadService {
     );
   }
   downloadFile(localUrl) {
-    // return this.http.post('http://localhost:8990/download/', { file: localUrl }, {
+    // return this.http.post(`${this.serverIpPosrt}/download/`, { file: localUrl }, {
     //   responseType: "blob",
     //   headers: new HttpHeaders().append("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
     // }
     // )
 
-    return this.http.post('http://localhost:8990/download/', { file: localUrl }, {
+    return this.http.post(`${this.serverIpPosrt}/download/`, { file: localUrl }, {
       responseType: 'blob',
       headers: new HttpHeaders().append('Content-Type', 'application/json')
     });
@@ -60,40 +65,40 @@ export class FileUploadService {
   }
 
   getAllTasks(): Observable<any> {
-    return this.http.post('http://localhost:8990/get-all-tasks/', {} ).pipe(
+    return this.http.post(`${this.serverIpPosrt}/get-all-tasks/`, {} ).pipe(
       catchError(this.errorMgmt)
     );
   }
 
   progressStatus(): Observable<any> {
-    return this.http.post('http://localhost:8990/get-progress-status/', {} ).pipe(
+    return this.http.post(`${this.serverIpPosrt}/get-progress-status/`, {} ).pipe(
       catchError(this.errorMgmt)
     );
   }
 
   exportInputStatusApi( selectedTasks: string[],dateTo, dateFrom ): Observable<any> {
     console.log(selectedTasks);
-    return this.http.post('http://localhost:8990/export-input-status/', {tasks : selectedTasks , dateTo, dateFrom } ).pipe(
+    return this.http.post(`${this.serverIpPosrt}/export-input-status/`, {tasks : selectedTasks , dateTo, dateFrom } ).pipe(
       catchError(this.errorMgmt)
     );
   }
   exportResultsStatusApi( selectedTasks: string[] , dateTo: Date, dateFrom: Date,verticalOrHorizontal): Observable<any> {
     console.log(selectedTasks);
-    return this.http.post('http://localhost:8990/export-results-status/', {tasks : selectedTasks , dateTo , dateFrom,verticalOrHorizontal } ).pipe(
+    return this.http.post(`${this.serverIpPosrt}/export-results-status/`, {tasks : selectedTasks , dateTo , dateFrom,verticalOrHorizontal } ).pipe(
       catchError(this.errorMgmt)
     );
   }
 
   exportDiffStatusApi( selectedTasks: string[] , dateTo: Date, dateFrom: Date): Observable<any> {
     console.log(selectedTasks);
-    return this.http.post('http://localhost:8990/export-diff-status/', {tasks : selectedTasks} ).pipe(
+    return this.http.post(`${this.serverIpPosrt}/export-diff-status/`, {tasks : selectedTasks} ).pipe(
       catchError(this.errorMgmt)
     );
   }
 
   exportResultsHorizontal( selectedTasks: string[] , dateTo: Date, dateFrom: Date): Observable<any> {
     console.log(selectedTasks);
-    return this.http.post('http://localhost:8990/export-res_hor-status/', {tasks : selectedTasks} ).pipe(
+    return this.http.post(`${this.serverIpPosrt}/export-res_hor-status/`, {tasks : selectedTasks} ).pipe(
       catchError(this.errorMgmt)
     );
   }
@@ -107,7 +112,7 @@ export class FileUploadService {
     formData.append('dateFrom', dateFrom);
     formData.append('verticalOrHorizontal', verticalOrHorizontal);
 
-    return this.http.post('http://localhost:8990/export-by-url/', formData, {
+    return this.http.post(`${this.serverIpPosrt}/export-by-url/`, formData, {
       reportProgress: true,
       observe: 'events'
     }).pipe(
@@ -124,7 +129,7 @@ export class FileUploadService {
     formData.append('dateFrom', dateFrom);
     formData.append('verticalOrHorizontal', verticalOrHorizontal);
     
-    return this.http.post('http://localhost:8990/export-by-vendor/', formData, {
+    return this.http.post(`${this.serverIpPosrt}/export-by-vendor/`, formData, {
       reportProgress: true,
       observe: 'events'
     }).pipe(
