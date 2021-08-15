@@ -11,8 +11,8 @@ import * as _ from 'lodash';
 })
 export class HtmlFeatureHandlingService {
 
-  serviceUrl: string = 'http://10.0.0.142:8002/HtmlFeaturesHandlingApis/';
-
+  // serviceUrl: string = 'http://10.0.0.142:8002/HtmlFeaturesHandlingApis/';
+  serviceUrl: string = 'http://localhost:8002/HtmlFeaturesHandlingApis/';
   constructor(private http: HttpClient) { }
 
   form: FormGroup = new FormGroup({
@@ -22,12 +22,14 @@ export class HtmlFeatureHandlingService {
     userType: new FormControl('', Validators.required),
     userKey: new FormControl('', Validators.required),
     userValue: new FormControl(''),
+    flow: new FormControl(''),
   });
 
   formValidation: FormGroup = new FormGroup({
     vendorCode: new FormControl('', Validators.required),
     featureName: new FormControl('', Validators.required),
-    testValue: new FormControl('', Validators.required)
+    testValue: new FormControl('', Validators.required),
+    flow: new FormControl('', Validators.required)
   });
 
   initializeFormValidationGroup() {
@@ -35,6 +37,7 @@ export class HtmlFeatureHandlingService {
       vendorCode: null,
       featureName: null,
       testValue: null,
+      flow: null,
     });
   }
 
@@ -45,7 +48,8 @@ export class HtmlFeatureHandlingService {
       featureName: null,
       userType: null,
       userKey: null,
-      userValue: null
+      userValue: null,
+      flow: null,
     });
   }
 
@@ -60,10 +64,8 @@ export class HtmlFeatureHandlingService {
   }
 
 
-  insertOrUpdate(
-    allFeatureNames,
-    allUserTypes) {
-      debugger
+  insertOrUpdate() {
+    debugger
     let user = {
       id: this.form.value.id,
       vendorCode: this.form.value.vendorCode,
@@ -72,7 +74,8 @@ export class HtmlFeatureHandlingService {
       // featureName: this.filterExactName(allFeatureNames, this.form.value.featureName)[0],
       // userType: this.filterExactName(allUserTypes, this.form.value.userType)[0],
       featureName: this.form.value.featureName,
-      userType:  this.form.value.userType,
+      userType: this.form.value.userType,
+      flow: this.form.value.flow,
     }
 
 
@@ -87,7 +90,8 @@ export class HtmlFeatureHandlingService {
     let user = {
       vendorCode: this.formValidation.value.vendorCode,
       featureName: this.formValidation.value.featureName,
-      testValue:  this.formValidation.value.testValue,
+      testValue: this.formValidation.value.testValue,
+      flow: this.formValidation.value.flow,
     }
     console.log(user)
     console.log(`${this.serviceUrl}executeFeatureHandling`)
@@ -99,7 +103,7 @@ export class HtmlFeatureHandlingService {
     return this.http.get<any>(`${this.serviceUrl}all`).pipe(catchError(this.errorHandler));
   }
 
- 
+
 
   deleteById(id): Observable<any> {
     console.log(`${this.serviceUrl}deleteById/${id}`)
@@ -111,10 +115,11 @@ export class HtmlFeatureHandlingService {
     this.form.setValue({
       id: row.id,
       vendorCode: row.vendorCode,
-      featureName: row.featureName ?row.featureName:'' ,
+      featureName: row.featureName ? row.featureName : '',
       userType: row.userType ? row.userType : '',
       userKey: row.userKey,
       userValue: row.userValue,
+      flow: row.flow,
     })
 
   }

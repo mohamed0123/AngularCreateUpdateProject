@@ -13,7 +13,7 @@ import { CreateComponent } from '../create/create.component';
   styleUrls: ['./edit.component.css']
 })
 export class EditComponent implements OnInit {
-  displayedColumns: string[] = ['UPDATE' ,'FEATURENAME', 'VENDORECODE','USERTYPE', 'STOREDATE', 'USERKEY', 'VALUE'];
+  displayedColumns: string[] = ['UPDATE' ,'FEATURENAME', 'VENDORECODE','USERTYPE', 'STOREDATE', 'USERKEY', 'VALUE' , 'FLOW'];
   checker;
   dataArray: MatTableDataSource<any>;
   tableData = []

@@ -12,6 +12,7 @@ export class ValidationComponent implements OnInit {
 
   allFeatureNames  = [ 'PN' , 'DESC' , 'TAX_PATH' ]
   allUserTypes = ['REGEX' ,  'REPLACE' ,'REPLACE AFTER' ,'REPLACE BEFORE' ]
+  allFlows  = [ 'HTML Extraction' , 'PDF Extraction' ]
   results = 'Click check to see the results'
   constructor(public dialogRef: MatDialogRef<ValidationComponent>,
     private notificationService: NotificationService, private service: HtmlFeatureHandlingService) { }

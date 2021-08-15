@@ -71,6 +71,13 @@
             </mat-cell>
         </ng-container>
 
+        <ng-container matColumnDef="FLOW">
+            <mat-header-cell *matHeaderCellDef>Flow</mat-header-cell>
+            <mat-cell *matCellDef="let element ; let i = index">
+                {{ element.flow }}
+            </mat-cell>
+        </ng-container>
+
         <ng-container matColumnDef="USERKEY">
             <mat-header-cell *matHeaderCellDef>Key</mat-header-cell>
             <mat-cell *matCellDef="let element ; let i = index">

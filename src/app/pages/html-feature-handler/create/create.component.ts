@@ -10,6 +10,7 @@ import { HtmlFeatureHandlingService } from 'src/app/shared/html-feature-handling
 })
 export class CreateComponent implements OnInit {
   allFeatureNames  = [ 'PN' , 'DESC' , 'TAX_PATH' ]
+  allFlows  = [ 'HTML Extraction' , 'PDF Extraction' ]
   allUserTypes = ['REGEX' ,  'REPLACE' ,'REPLACE AFTER' ,'REPLACE BEFORE' ]
   constructor(public dialogRef: MatDialogRef<CreateComponent>,
     private notificationService: NotificationService, private service: HtmlFeatureHandlingService) { }
@@ -19,12 +20,8 @@ export class CreateComponent implements OnInit {
 
   onFormSubmit() {
 
-    this.service.insertOrUpdate(
-      this.allFeatureNames,
-      this.allUserTypes
-      ).subscribe(
+    this.service.insertOrUpdate().subscribe(
         data => {
-          debugger
           console.log(data)
           if (data.status === 'Done'){
             this.notificationService.success('Saved Successfully');
