@@ -11,8 +11,8 @@ import * as _ from 'lodash';
 })
 export class HtmlFeatureHandlingService {
 
-  // serviceUrl: string = 'http://10.0.0.142:8002/HtmlFeaturesHandlingApis/';
-  serviceUrl: string = 'http://localhost:8002/HtmlFeaturesHandlingApis/';
+  serviceUrl: string = 'http://10.0.0.142:8002/HtmlFeaturesHandlingApis/';
+  // serviceUrl: string = 'http://localhost:8002/HtmlFeaturesHandlingApis/';
   constructor(private http: HttpClient) { }
 
   form: FormGroup = new FormGroup({
