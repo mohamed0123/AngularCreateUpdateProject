@@ -39,7 +39,7 @@
                 <mat-form-field>
                     <mat-select formControlName="flow" placeholder="Please Select Flow">
                         <!-- <mat-option>None</mat-option> -->
-                        <ng-container *ngFor="let featureName of allFlows">
+                        <ng-container *ngFor="let flow of allFlows">
                             <mat-option value="{{flow}}">{{flow}}</mat-option>
                         </ng-container>
                     </mat-select>
