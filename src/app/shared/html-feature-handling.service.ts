@@ -22,7 +22,7 @@ export class HtmlFeatureHandlingService {
     userType: new FormControl('', Validators.required),
     userKey: new FormControl('', Validators.required),
     userValue: new FormControl(''),
-    flow: new FormControl(''),
+    flow: new FormControl('', Validators.required),
   });
 
   formValidation: FormGroup = new FormGroup({
