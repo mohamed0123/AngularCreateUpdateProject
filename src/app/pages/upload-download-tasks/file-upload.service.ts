@@ -78,28 +78,27 @@ export class FileUploadService {
 
   exportInputStatusApi( selectedTasks: string[],dateTo, dateFrom ): Observable<any> {
     console.log(selectedTasks);
-    return this.http.post(`${this.serverIpPosrt}/export-input-status/`, {tasks : selectedTasks , dateTo:dateTo.toISOString() , dateFrom:dateFrom.toISOString() } ).pipe(
+    return this.http.post(`${this.serverIpPosrt}/export-input-status/`, {tasks : selectedTasks , dateTo, dateFrom } ).pipe(
       catchError(this.errorMgmt)
     );
   }
-  exportResultsStatusApi( selectedTasks: string[] , dateTo, dateFrom,verticalOrHorizontal): Observable<any> {
+  exportResultsStatusApi( selectedTasks: string[] , dateTo: Date, dateFrom: Date,verticalOrHorizontal): Observable<any> {
     console.log(selectedTasks);
-    return this.http.post(`${this.serverIpPosrt}/export-results-status/`, {tasks : selectedTasks , dateTo:dateTo.toISOString() , dateFrom:dateFrom.toISOString(),verticalOrHorizontal } ).pipe(
+    return this.http.post(`${this.serverIpPosrt}/export-results-status/`, {tasks : selectedTasks , dateTo , dateFrom,verticalOrHorizontal } ).pipe(
       catchError(this.errorMgmt)
     );
   }
 
-  exportDiffStatusApi( selectedTasks: string[] , dateTo, dateFrom,verticalOrHorizontal): Observable<any> {
-    console.log(dateTo.toISOString());
-
-    return this.http.post(`${this.serverIpPosrt}/export-diff-status/`, {tasks : selectedTasks , dateTo:dateTo.toISOString() , dateFrom:dateFrom.toISOString(),verticalOrHorizontal } ).pipe(
-      catchError(this.errorMgmt)
-    );
-  }
-
-  exportResultsHorizontal( selectedTasks: string[] , dateTo, dateFrom,verticalOrHorizontal): Observable<any> {
+  exportDiffStatusApi( selectedTasks: string[] , dateTo: Date, dateFrom: Date,verticalOrHorizontal): Observable<any> {
     console.log(selectedTasks);
-    return this.http.post(`${this.serverIpPosrt}/export-res_hor-status/`, {tasks : selectedTasks, dateTo:dateTo.toISOString() , dateFrom:dateFrom.toISOString(),verticalOrHorizontal } ).pipe(
+    return this.http.post(`${this.serverIpPosrt}/export-diff-status/`, {tasks : selectedTasks , dateTo , dateFrom,verticalOrHorizontal } ).pipe(
+      catchError(this.errorMgmt)
+    );
+  }
+
+  exportResultsHorizontal( selectedTasks: string[] , dateTo: Date, dateFrom: Date,verticalOrHorizontal): Observable<any> {
+    console.log(selectedTasks);
+    return this.http.post(`${this.serverIpPosrt}/export-res_hor-status/`, {tasks : selectedTasks, dateTo , dateFrom,verticalOrHorizontal } ).pipe(
       catchError(this.errorMgmt)
     );
   }
@@ -109,9 +108,8 @@ export class FileUploadService {
     formData.append('name', name);
     formData.append('avatar', profileImage);
     formData.append('tasks', selectedTasks);
-    
-    formData.append('dateTo', dateTo.toISOString());
-    formData.append('dateFrom', dateFrom.toISOString());
+    formData.append('dateTo', dateTo);
+    formData.append('dateFrom', dateFrom);
     formData.append('verticalOrHorizontal', verticalOrHorizontal);
 
     return this.http.post(`${this.serverIpPosrt}/export-by-url/`, formData, {
@@ -127,8 +125,8 @@ export class FileUploadService {
     formData.append('name', name);
     formData.append('avatar', profileImage);
     formData.append('tasks', selectedTasks);
-    formData.append('dateTo', dateTo.toISOString());
-    formData.append('dateFrom', dateFrom.toISOString());
+    formData.append('dateTo', dateTo);
+    formData.append('dateFrom', dateFrom);
     formData.append('verticalOrHorizontal', verticalOrHorizontal);
     
     return this.http.post(`${this.serverIpPosrt}/export-by-vendor/`, formData, {
