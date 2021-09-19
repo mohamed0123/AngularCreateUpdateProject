@@ -237,6 +237,7 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
     this.loading = true;
     let dateTo = null;
     let dateFrom = null;
+ 
     if (this.form.value.withOrWithoutDate) {
       console.log(this.form.value.fromDate);
       console.log(this.form.value.toDate);
@@ -311,6 +312,12 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
     let dateTo = null;
     this.loading = true;
     let dateFrom = null;
+    let verticalOrHorizontal ;
+    if(this.form.value.verticalOrHorizontal === 'ver'){
+      verticalOrHorizontal = "vertical";
+    }else{
+      verticalOrHorizontal = "horizontal";
+    }
     if (this.form.value.withOrWithoutDate) {
       console.log(this.form.value.fromDate);
       console.log(this.form.value.toDate);
@@ -318,7 +325,7 @@ export class UploadDownloadTasksComponent implements OnInit, OnDestroy, OnChange
       dateFrom = this.form.value.fromDate;
     }
     this.fileUploadService.exportDiffStatusApi(
-      this.selectedTasks, dateTo, dateFrom
+      this.selectedTasks, dateTo, dateFrom,verticalOrHorizontal
     ).subscribe(filePath => {
       console.log('start downloading');
       console.log(filePath);
