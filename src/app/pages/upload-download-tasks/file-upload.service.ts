@@ -89,16 +89,16 @@ export class FileUploadService {
     );
   }
 
-  exportDiffStatusApi( selectedTasks: string[] , dateTo: Date, dateFrom: Date): Observable<any> {
+  exportDiffStatusApi( selectedTasks: string[] , dateTo: Date, dateFrom: Date,verticalOrHorizontal): Observable<any> {
     console.log(selectedTasks);
-    return this.http.post(`${this.serverIpPosrt}/export-diff-status/`, {tasks : selectedTasks} ).pipe(
+    return this.http.post(`${this.serverIpPosrt}/export-diff-status/`, {tasks : selectedTasks , dateTo , dateFrom,verticalOrHorizontal } ).pipe(
       catchError(this.errorMgmt)
     );
   }
 
-  exportResultsHorizontal( selectedTasks: string[] , dateTo: Date, dateFrom: Date): Observable<any> {
+  exportResultsHorizontal( selectedTasks: string[] , dateTo: Date, dateFrom: Date,verticalOrHorizontal): Observable<any> {
     console.log(selectedTasks);
-    return this.http.post(`${this.serverIpPosrt}/export-res_hor-status/`, {tasks : selectedTasks} ).pipe(
+    return this.http.post(`${this.serverIpPosrt}/export-res_hor-status/`, {tasks : selectedTasks, dateTo , dateFrom,verticalOrHorizontal } ).pipe(
       catchError(this.errorMgmt)
     );
   }
