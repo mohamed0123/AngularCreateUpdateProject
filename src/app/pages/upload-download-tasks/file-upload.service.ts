@@ -12,8 +12,8 @@ export class FileUploadService {
 
   constructor(private http: HttpClient) { }
 
-  serverIpPosrt :string= 'http://localhost:8990'
-  // serverIpPosrt :string= 'http://172.30.1.60:8990'
+  // serverIpPosrt :string= 'http://localhost:8990'
+  serverIpPosrt :string= 'http://172.30.1.60:8990'
 
 
   addUser(name: string, profileImage: File): Observable<any> {
