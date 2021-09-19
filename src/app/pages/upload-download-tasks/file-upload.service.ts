@@ -82,22 +82,22 @@ export class FileUploadService {
       catchError(this.errorMgmt)
     );
   }
-  exportResultsStatusApi( selectedTasks: string[] , dateTo: Date, dateFrom: Date,verticalOrHorizontal): Observable<any> {
+  exportResultsStatusApi( selectedTasks: string[] , dateTo, dateFrom,verticalOrHorizontal): Observable<any> {
     console.log(selectedTasks);
     return this.http.post(`${this.serverIpPosrt}/export-results-status/`, {tasks : selectedTasks , dateTo:dateTo.toISOString() , dateFrom:dateFrom.toISOString(),verticalOrHorizontal } ).pipe(
       catchError(this.errorMgmt)
     );
   }
 
-  exportDiffStatusApi( selectedTasks: string[] , dateTo: Date, dateFrom: Date,verticalOrHorizontal): Observable<any> {
-    console.log(selectedTasks);
+  exportDiffStatusApi( selectedTasks: string[] , dateTo, dateFrom,verticalOrHorizontal): Observable<any> {
+    console.log(dateTo.toISOString());
 
     return this.http.post(`${this.serverIpPosrt}/export-diff-status/`, {tasks : selectedTasks , dateTo:dateTo.toISOString() , dateFrom:dateFrom.toISOString(),verticalOrHorizontal } ).pipe(
       catchError(this.errorMgmt)
     );
   }
 
-  exportResultsHorizontal( selectedTasks: string[] , dateTo: Date, dateFrom: Date,verticalOrHorizontal): Observable<any> {
+  exportResultsHorizontal( selectedTasks: string[] , dateTo, dateFrom,verticalOrHorizontal): Observable<any> {
     console.log(selectedTasks);
     return this.http.post(`${this.serverIpPosrt}/export-res_hor-status/`, {tasks : selectedTasks, dateTo:dateTo.toISOString() , dateFrom:dateFrom.toISOString(),verticalOrHorizontal } ).pipe(
       catchError(this.errorMgmt)
