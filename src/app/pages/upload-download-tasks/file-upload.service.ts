@@ -90,6 +90,7 @@ export class FileUploadService {
   }
 
   exportDiffStatusApi( selectedTasks: string[] , dateTo: Date, dateFrom: Date,verticalOrHorizontal): Observable<any> {
+    debugger
     console.log(selectedTasks);
     return this.http.post(`${this.serverIpPosrt}/export-diff-status/`, {tasks : selectedTasks , dateTo , dateFrom,verticalOrHorizontal } ).pipe(
       catchError(this.errorMgmt)
